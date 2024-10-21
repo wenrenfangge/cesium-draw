@@ -20,6 +20,20 @@
       "require": "./lib/cesium-draw.umd.cjs"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wenrenfangge/cesium-draw"
+  },
+  "homepage": "https://github.com/wenrenfangge/cesium-draw/README.md",
+  "keywords": [
+    "cesium",
+    "cesium-draw",
+    "cesium-draw-irregular",
+    "irregular",
+    "不规则",
+    "绘制",
+    "绘制不规则"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc --emitDeclarationOnly && vite build",
