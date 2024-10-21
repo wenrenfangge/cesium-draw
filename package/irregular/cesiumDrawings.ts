@@ -2,7 +2,7 @@
  * @Author: 闻人放歌 wenrenfangge@gmail.com
  * @Date: 2022-06-22 16:23:12
  * @LastEditors: 闻人放歌 wenrenfangge@gmail.com
- * @LastEditTime: 2024-10-20 23:09:39
+ * @LastEditTime: 2024-10-21 22:41:33
  * @FilePath: \ant-design-vue-prod:\work\company_new_bridge\fontweb\casearth\src\utils\cesiumDrawings.ts
  * @Description: 不规则图形绘制
  */
@@ -82,8 +82,6 @@ export class CesiumDrawings {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const _this = this;
     this.handler.setInputAction(function (event: any) {
-      console.log(event);
-
       if (_this.drawing) {
         _this.reset(_this.color, _this.positions);
       } else {
