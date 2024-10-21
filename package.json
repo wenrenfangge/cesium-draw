@@ -7,7 +7,8 @@
     "lib",
     "LICENSE",
     "README.md",
-    "README-zh.md"
+    "README-zh.md",
+    "CHANGELOG.md"
   ],
   "main": "./lib/cesium-draw.umd.cjs",
   "module": "./lib/cesium-draw.js",
