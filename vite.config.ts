@@ -2,7 +2,7 @@
  * @Author: 闻人放歌 wenrenfangge@gmail.com
  * @Date: 2024-10-20 10:46:51
  * @LastEditors: 闻人放歌 wenrenfangge@gmail.com
- * @LastEditTime: 2024-10-20 23:07:30
+ * @LastEditTime: 2024-10-21 13:17:32
  * @FilePath: /cesiumDraw/Users/wenrenfangge/Documents/wenrenfangge-studio/frontEnd/cesium-draw/vite.config.ts
  * @Description: vite配置
  */

@@ -4,11 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "files": [
-    "lib"
+    "lib",
+    "LICENSE",
+    "README.md",
+    "README-zh.md"
   ],
   "main": "./lib/cesium-draw.umd.cjs",
   "module": "./lib/cesium-draw.js",
   "types": "./lib/types/index.d.ts",
+  "license": "MIT",
   "exports": {
     ".": {
       "import": "./lib/cesium-draw.js",
@@ -20,15 +24,20 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "preview": "vite preview",
     "build:lib": "tsc && vite build --target lib ./package/irregular/index.ts --name cesium-draw-irregular --dest cesium-draw-irregular",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.1.1",
     "conventional-changelog-cli": "^5.0.0",
     "conventional-changelog-gitmoji-config": "^1.5.2",
+    "terser": "^5.36.0",
     "typescript": "^5.5.3",
     "vite": "^5.4.8",
-    "vite-plugin-dts": "^4.2.4"
+    "vite-plugin-dts": "^4.2.4",
+    "vitepress": "^1.4.1"
   },
   "dependencies": {
     "@turf/turf": "^7.1.0",
