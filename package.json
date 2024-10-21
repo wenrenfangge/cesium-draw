@@ -4,20 +4,20 @@
   "version": "0.0.1",
   "type": "module",
   "files": [
-    "lib",
+    "cesium-draw",
     "LICENSE",
     "README.md",
     "README-zh.md",
     "CHANGELOG.md"
   ],
-  "main": "./lib/cesium-draw.umd.cjs",
-  "module": "./lib/cesium-draw.js",
-  "types": "./lib/types/index.d.ts",
+  "main": "./cesium-draw/index.umd.cjs",
+  "module": "./cesium-draw/index.js",
+  "types": "./cesium-draw/types/index.d.ts",
   "license": "MIT",
   "exports": {
     ".": {
-      "import": "./lib/cesium-draw.js",
-      "require": "./lib/cesium-draw.umd.cjs"
+      "import": "./cesium-draw/index.js",
+      "require": "./cesium-draw/index.umd.cjs"
     }
   },
   "repository": {
