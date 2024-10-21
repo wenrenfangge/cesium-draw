@@ -2,7 +2,7 @@
  * @Author: 闻人放歌 wenrenfangge@gmail.com
  * @Date: 2024-10-20 10:46:51
  * @LastEditors: 闻人放歌 wenrenfangge@gmail.com
- * @LastEditTime: 2024-10-21 21:48:43
+ * @LastEditTime: 2024-10-21 22:18:13
  * @FilePath: /cesiumDraw/Users/wenrenfangge/Documents/wenrenfangge-studio/frontEnd/cesium-draw/vite.config.ts
  * @Description: vite配置
  */
@@ -18,7 +18,7 @@ export default defineConfig({
       fileName: "index",
       formats: ["es", "cjs"],
     },
-    outDir: "cesium-draw",
+    outDir: "@wenrenfangge/cesium-draw",
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
       external: ["vue"],
@@ -49,7 +49,7 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true, // 生成类型文件入口
-      outDir: "cesium-draw/types", // 声明文件的输出目录
+      outDir: "@wenrenfangge/cesium-draw/types", // 声明文件的输出目录
     }),
   ],
 });

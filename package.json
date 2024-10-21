@@ -10,9 +10,9 @@
     "README-zh.md",
     "CHANGELOG.md"
   ],
-  "main": "./cesium-draw/index.umd.cjs",
-  "module": "./cesium-draw/index.js",
-  "types": "./cesium-draw/types/index.d.ts",
+  "main": "./@wenrenfangge/cesium-draw/index.umd.cjs",
+  "module": "./@wenrenfangge/cesium-draw/index.js",
+  "types": "./@wenrenfangge/cesium-draw/index.d.ts",
   "license": "MIT",
   "exports": {
     ".": {
