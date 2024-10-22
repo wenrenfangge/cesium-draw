@@ -1,7 +1,7 @@
 {
   "name": "@wenrenfangge/cesium-draw",
   "private": false,
-  "version": "0.0.5",
+  "version": "1.0.0",
   "type": "module",
   "files": [
     "cesium-draw",
