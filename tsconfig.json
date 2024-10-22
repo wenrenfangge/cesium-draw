@@ -35,6 +35,6 @@
 
     "types": ["cesium"]
   },
-  "include": ["src", "package/**/*.ts"],
+  "include": ["src", "package/**/*.ts", "package/*.d.ts", "dist/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

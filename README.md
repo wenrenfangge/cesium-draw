@@ -2,7 +2,7 @@
  * @Author: 闻人放歌 wenrenfangge@gmail.com
  * @Date: 2024-10-21 09:15:24
  * @LastEditors: 闻人放歌 wenrenfangge@gmail.com
- * @LastEditTime: 2024-10-21 19:59:19
+ * @LastEditTime: 2024-10-22 11:53:01
  * @FilePath: /cesiumDraw/Users/wenrenfangge/Documents/wenrenfangge-studio/frontEnd/cesium-draw/README.md
  * @Description: 英文文档
 -->
@@ -37,6 +37,9 @@
 import { DrawIrregular }  from '@wenrenfangge/cesium-draw';
 
 const irregularDraw = new DrawIrregular(viewer);
+irregularDraw.onDrawFinish = (drawData) => {
+  // handle draw data
+}
 
 const drawIrregularGraphic = () => {
     irregularDraw.drawings();

@@ -2,23 +2,10 @@
  * @Author: 闻人放歌 wenrenfangge@gmail.com
  * @Date: 2022-06-22 16:23:12
  * @LastEditors: 闻人放歌 wenrenfangge@gmail.com
- * @LastEditTime: 2024-10-21 22:41:33
+ * @LastEditTime: 2024-10-22 11:07:29
  * @FilePath: \ant-design-vue-prod:\work\company_new_bridge\fontweb\casearth\src\utils\cesiumDrawings.ts
  * @Description: 不规则图形绘制
  */
-import {
-  CallbackProperty,
-  Cartesian2,
-  Cartesian3,
-  Cartographic,
-  Color,
-  defined,
-  Entity,
-  ScreenSpaceEventHandler,
-  ScreenSpaceEventType,
-  Viewer,
-  Math,
-} from "cesium";
 import { ElNotification } from "element-plus";
 import { EventDispatcher, Handler } from "../event";
 declare const turf: any;
@@ -31,20 +18,20 @@ export class CesiumDrawings {
 
   //#endregion
 
-  private handler: ScreenSpaceEventHandler;
-  private viewer: Viewer;
+  private handler: Cesium.ScreenSpaceEventHandler;
+  private viewer: Cesium.Viewer;
   // private scene: any;
   private milkTruck: any;
   private ground: any;
   // private camera: any;
-  private color: Color = new Color();
-  private colors: Array<Color> = [];
-  private polyline: Entity = new Entity();
-  private points: Entity = new Entity();
-  private directPolyline: Entity = new Entity();
+  private color: Cesium.Color = new Cesium.Color();
+  private colors: Array<Cesium.Color> = [];
+  private polyline: Cesium.Entity = new Cesium.Entity();
+  private points: Cesium.Entity = new Cesium.Entity();
+  private directPolyline: Cesium.Entity = new Cesium.Entity();
   private drawing = false;
-  private positions: Array<Cartesian3> = [];
-  private activeShape: Entity = new Entity();
+  private positions: Array<Cesium.Cartesian3> = [];
+  private activeShape: Cesium.Entity = new Cesium.Entity();
   private floatingPoint: any;
   public activeShapePointsLatlng: Array<any> = [];
   public activeShapePoints: Array<any> = [];
@@ -53,18 +40,18 @@ export class CesiumDrawings {
   private drawFinishDispatcher = new EventDispatcher<DrawFinishEvent>();
   // public proxy :any
 
-  constructor(viewerInstance: Viewer) {
+  constructor(viewerInstance: Cesium.Viewer) {
     // this.proxy= getCurrentInstance()
     this.viewer = viewerInstance;
-    this.handler = new ScreenSpaceEventHandler(this.viewer.canvas);
+    this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.canvas);
     // this.camera = this.viewer.camera;
     // this.scene = this.viewer.scene;
     this.viewer.scene.globe.depthTestAgainstTerrain = true;
     this.viewer.screenSpaceEventHandler.removeInputAction(
-      ScreenSpaceEventType.LEFT_CLICK
+      Cesium.ScreenSpaceEventType.LEFT_CLICK
     );
     this.viewer.screenSpaceEventHandler.removeInputAction(
-      ScreenSpaceEventType.MOUSE_MOVE
+      Cesium.ScreenSpaceEventType.MOUSE_MOVE
     );
     console.log(this.activeShape);
   }
@@ -85,7 +72,7 @@ export class CesiumDrawings {
       if (_this.drawing) {
         _this.reset(_this.color, _this.positions);
       } else {
-        const postions = new CallbackProperty(function () {
+        const postions = new Cesium.CallbackProperty(function () {
           return _this.positions;
         }, false);
         _this.polyline = _this.viewer.entities.add({
@@ -106,17 +93,20 @@ export class CesiumDrawings {
         const { position } = event;
         const earthPosition = _this.viewer.scene.pickPosition(position);
         const metaEarthPosition =
-          position instanceof Cartesian2
+          position instanceof Cesium.Cartesian2
             ? _this.viewer.scene.camera.pickEllipsoid(position)
             : earthPosition;
         // console.log("metaEarthPosition=>", metaEarthPosition);
-        if (defined(metaEarthPosition)) {
+        if (Cesium.defined(metaEarthPosition)) {
           if (_this.activeShapePointsLatlng.length === 0) {
             _this.floatingPoint = _this.createPoint(metaEarthPosition);
             _this.activeShapePointsLatlng.push(metaEarthPosition);
-            const dynamicPositions: any = new CallbackProperty(function () {
-              return _this.activeShapePointsLatlng;
-            }, false);
+            const dynamicPositions: any = new Cesium.CallbackProperty(
+              function () {
+                return _this.activeShapePointsLatlng;
+              },
+              false
+            );
             _this.activeShape = _this.drawGraphic(dynamicPositions); //绘制动态图
           }
           _this.activeShapePointsLatlng.push(metaEarthPosition);
@@ -124,7 +114,7 @@ export class CesiumDrawings {
         }
       }
       _this.drawing = !_this.drawing;
-    }, ScreenSpaceEventType.LEFT_CLICK);
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
     this.handler.setInputAction(function (movement: any) {
       // console.log(movement)
@@ -132,23 +122,32 @@ export class CesiumDrawings {
       const pickedObject = _this.viewer.scene.pick(movement.endPosition);
       const length = _this.colors.length;
       const lastColor = _this.colors[length - 1];
-      let cartesian: Cartesian3 | undefined = _this.viewer.scene.pickPosition(
-        movement.endPosition
-      );
+      let cartesian: Cesium.Cartesian3 | undefined =
+        _this.viewer.scene.pickPosition(movement.endPosition);
       if (!cartesian) {
         cartesian = _this.viewer.scene.camera.pickEllipsoid(endPosition);
       }
       // console.log(pickedObject,cartesian)
-      if (_this.viewer.scene.pickPositionSupported && defined(cartesian)) {
+      if (
+        _this.viewer.scene.pickPositionSupported &&
+        Cesium.defined(cartesian)
+      ) {
         // const cartographic = Cartographic.fromCartesian(cartesian);
-        if (!defined(pickedObject)) {
-          _this.color = Color.GREENYELLOW;
+        if (!Cesium.defined(pickedObject)) {
+          _this.color = Cesium.Color.GREENYELLOW;
 
-          if (!defined(lastColor) || !lastColor.equals(Color.GREENYELLOW)) {
-            _this.colors.push(Color.GREENYELLOW);
+          if (
+            !Cesium.defined(lastColor) ||
+            !lastColor.equals(Cesium.Color.GREENYELLOW)
+          ) {
+            _this.colors.push(Cesium.Color.GREENYELLOW);
           }
           if (_this.drawing) {
-            if (defined(lastColor) && lastColor.equals(Color.GREENYELLOW)) {
+            if (
+              Cesium.defined(lastColor) &&
+              lastColor.equals(Cesium.Color.GREENYELLOW) &&
+              cartesian
+            ) {
               _this.positions.push(cartesian);
             } else {
               _this.reset(lastColor, _this.positions);
@@ -159,59 +158,59 @@ export class CesiumDrawings {
 
         // are we drawing on one of the 3D models
         if (
-          defined(pickedObject) &&
+          Cesium.defined(pickedObject) &&
           (pickedObject.id === _this.ground ||
             pickedObject.id === _this.milkTruck)
         ) {
           const penultimateColor = _this.colors[length - 2];
 
           if (pickedObject.id === _this.ground) {
-            _this.color = Color.GREENYELLOW;
+            _this.color = Cesium.Color.GREENYELLOW;
           } else {
-            _this.color = Color.ORANGE;
+            _this.color = Cesium.Color.ORANGE;
           }
           _this.pushColor(_this.color, _this.colors);
 
           if (_this.drawing) {
-            if (lastColor.equals(Color.GREENYELLOW)) {
+            if (lastColor.equals(Cesium.Color.GREENYELLOW)) {
               _this.reset(lastColor, _this.positions);
               _this.draw(_this.color, _this.positions);
               console.log(_this.positions, 121212);
             } else if (
-              (Color.GREENYELLOW.equals(lastColor) &&
-                Color.ORANGE.equals(penultimateColor)) ||
-              (Color.ORANGE.equals(lastColor) &&
-                Color.GREENYELLOW.equals(penultimateColor))
+              (Cesium.Color.GREENYELLOW.equals(lastColor) &&
+                Cesium.Color.ORANGE.equals(penultimateColor)) ||
+              (Cesium.Color.ORANGE.equals(lastColor) &&
+                Cesium.Color.GREENYELLOW.equals(penultimateColor))
             ) {
               _this.positions.pop();
               _this.reset(penultimateColor, _this.positions);
               _this.draw(lastColor, _this.positions);
               _this.colors.push(_this.color);
             } else {
-              _this.positions.push(cartesian);
+              cartesian && _this.positions.push(cartesian);
             }
           }
         }
       }
-      if (_this.drawing && defined(_this.floatingPoint)) {
-        let newPosition: Cartesian3 | undefined =
+      if (_this.drawing && Cesium.defined(_this.floatingPoint)) {
+        let newPosition: Cesium.Cartesian3 | undefined =
           _this.viewer.scene.pickPosition(movement.endPosition);
         if (!newPosition) {
           newPosition = _this.viewer.camera.pickEllipsoid(movement.endPosition);
         }
-        if (defined(newPosition)) {
+        if (Cesium.defined(newPosition)) {
           _this.floatingPoint.position.setValue(newPosition);
           _this.activeShapePointsLatlng.pop();
           _this.activeShapePointsLatlng.push(newPosition);
 
-          const cartesian: Cartesian3 | undefined =
+          const cartesian: Cesium.Cartesian3 | undefined =
             _this.viewer.camera.pickEllipsoid(movement.endPosition);
-          if (!defined(cartesian)) {
+          if (!Cesium.defined(cartesian) || !cartesian) {
             throw new Error("cartesian is not defined");
           }
-          const cartographic = Cartographic.fromCartesian(cartesian);
-          const lng = Math.toDegrees(cartographic.longitude); // 经度
-          const lat = Math.toDegrees(cartographic.latitude); // 纬度
+          const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+          const lng = Cesium.Math.toDegrees(cartographic.longitude); // 经度
+          const lat = Cesium.Math.toDegrees(cartographic.latitude); // 纬度
 
           _this.activeShapeMapLatlng.push({ lng, lat });
         }
@@ -219,7 +218,7 @@ export class CesiumDrawings {
         // console.log("_this.activeShapePointsLatlng=>", _this.activeShapePointsLatlng)
         // _this.activeShapePointsLatlng = []
       }
-    }, ScreenSpaceEventType.MOUSE_MOVE);
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
   createPoint(position: any) {
     const point = this.viewer.entities.add({
@@ -235,20 +234,20 @@ export class CesiumDrawings {
     this.points = point;
     return point;
   }
-  private pushColor(color: Color, colors: Array<Color>) {
+  private pushColor(color: Cesium.Color, colors: Array<Cesium.Color>) {
     const lastColor = colors[colors.length - 1];
-    if (!defined(lastColor) || !color.equals(lastColor)) {
+    if (!Cesium.defined(lastColor) || !color.equals(lastColor)) {
       colors.push(color);
     }
   }
 
-  private reset(color?: Color, currentPositions?: Cartesian3[]) {
+  private reset(color?: Cesium.Color, currentPositions?: Cesium.Cartesian3[]) {
     console.log(color, currentPositions);
     const loopPosition = [this.positions[0]];
     const entity = {
       polyline: {
         positions: this.positions.concat(loopPosition),
-        material: Color.GREENYELLOW.withAlpha(1),
+        material: Cesium.Color.GREENYELLOW.withAlpha(1),
         width: 3,
         clampToGround: true,
       },
@@ -264,8 +263,8 @@ export class CesiumDrawings {
         },
         outline: true,
         // outlineColor: new Color(92, 184, 92, 1),
-        outlineColor: Color.GREENYELLOW.withAlpha(1),
-        material: Color.ORANGE.withAlpha(0.5),
+        outlineColor: Cesium.Color.GREENYELLOW.withAlpha(1),
+        material: Cesium.Color.ORANGE.withAlpha(0.5),
         outlineWidth: 5,
         clampToGround: true,
       },
@@ -415,11 +414,11 @@ export class CesiumDrawings {
     this.viewer.entities.remove(this.polyline);
     this.viewer.entities.remove(this.points);
     this.viewer.entities.remove(this.directPolyline);
-    this.handler.removeInputAction(ScreenSpaceEventType.LEFT_CLICK);
-    this.handler.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
+    this.handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    this.handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
-  private draw(color: Color, currentPositions: Cartesian3[]) {
+  private draw(color: Cesium.Color, currentPositions: Cesium.Cartesian3[]) {
     const entity = {
       // polyline: {
       //   loop: true,
@@ -442,15 +441,15 @@ export class CesiumDrawings {
     };
     this.polyline = this.viewer.entities.add(entity);
   }
-  private drawGraphic(positionData: Cartesian3[]) {
-    let shape: Entity;
+  private drawGraphic(positionData: Cesium.Cartesian3[]) {
+    let shape: Cesium.Entity;
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     shape = this.viewer.entities.add({
       polyline: {
         positions: positionData,
         clampToGround: true,
         width: 3,
-        material: Color.GREENYELLOW,
+        material: Cesium.Color.GREENYELLOW,
       },
     });
     this.directPolyline = shape;
