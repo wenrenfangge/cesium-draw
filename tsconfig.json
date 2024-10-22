@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true, // 生成 .d.ts 类型声明文件
-    "declarationDir": "./@wenrenfangge/cesium-draw/types", // 指定类型声明文件的输出目录
+    "declarationDir": "./dist/types", // 指定类型声明文件的输出目录
     "emitDeclarationOnly": true, // 只生成类型声明，不生成 js 文件
-    "outDir": "@wenrenfangge/cesium-draw", // 输出目录
+    "outDir": "dist", // 输出目录
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
