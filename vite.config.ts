@@ -2,14 +2,13 @@
  * @Author: 闻人放歌 wenrenfangge@gmail.com
  * @Date: 2024-10-20 10:46:51
  * @LastEditors: 闻人放歌 wenrenfangge@gmail.com
- * @LastEditTime: 2024-10-23 11:26:31
+ * @LastEditTime: 2024-10-23 17:44:01
  * @FilePath: /cesiumDraw/Users/wenrenfangge/Documents/wenrenfangge-studio/frontEnd/cesium-draw/vite.config.ts
  * @Description: vite配置
  */
 import path from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import copy from "rollup-plugin-copy";
 
 export default defineConfig({
   build: {
@@ -51,13 +50,8 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true, // 生成类型文件入口
+      tsconfigPath: "./tsconfig.json",
       outDir: "dist", // 声明文件的输出目录
-    }),
-    copy({
-      targets: [
-        { src: "package/Cesium.d.ts", dest: "dist" }, // 复制 Cesium.d.ts 文件到 dist 目录
-      ],
-      hook: "writeBundle", // 仅在 writeBundle 时复制
     }),
   ],
 });
